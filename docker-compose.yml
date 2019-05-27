@@ -1,0 +1,42 @@
+version: '3'
+services:
+
+    web:
+      build: ./web
+      container_name: web
+      volumes:
+        - ./web:/usr/src/app
+      depends_on:
+        - mysql
+      expose:
+        - "8000"
+      command: gunicorn webproject.wsgi -b 0.0.0.0:8000
+    
+    mysql:
+      image: mysql:5.7.22
+      container_name: db
+      restart: unless-stopped 
+      environment:
+        MYSQL_USER: root
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: test
+        MYSQL_ROOT_HOST: nodejs
+      ports:
+        - "3306:3306"
+      volumes:     
+        - dbdata:/var/lib/mysql
+        - ./mysql/my.cnf:/etc/mysql/my.cnf
+    
+    nginx:
+      container_name: nginx
+      image: nginx:1.13
+      restart: always
+      ports:
+        - 8081:80
+        - 443:443
+      volumes:
+        - ./nginx/conf.d:/etc/nginx/conf.d
+
+volumes:
+  dbdata:
+  
