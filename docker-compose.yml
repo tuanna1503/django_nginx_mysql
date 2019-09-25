@@ -2,7 +2,7 @@ version: '3'
 services:
 
     web:
-      build: ./spa
+      build: ./
       container_name: spa
       volumes:
         - ./spa:/usr/src/app
