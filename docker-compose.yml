@@ -2,25 +2,28 @@ version: '3'
 services:
 
     web:
-      build: ./web
-      container_name: web
+      build: ./spa
+      container_name: spa
       volumes:
-        - ./web:/usr/src/app
+        - ./spa:/usr/src/app
       depends_on:
         - mysql
       expose:
         - "8000"
-      command: gunicorn webproject.wsgi -b 0.0.0.0:8000
-    
+      # command: gunicorn spa.wsgi -b 0.0.0.0:8000
+      command: >
+        sh -c "python manage.py migrate
+        && python manage.py runserver 0.0.0.0:8000"
+
     mysql:
       image: mysql:5.7.22
       container_name: db
       restart: unless-stopped 
       environment:
         MYSQL_USER: root
-        MYSQL_ROOT_PASSWORD: root
-        MYSQL_DATABASE: test
-        MYSQL_ROOT_HOST: nodejs
+        MYSQL_ROOT_PASSWORD: 111
+        MYSQL_DATABASE: spa_app
+        # MYSQL_ROOT_HOST: nodejs
       ports:
         - "3306:3306"
       volumes:     
