@@ -3,7 +3,7 @@ services:
 
     web:
       build: ./
-      container_name: spa
+      container_name: spa_web
       volumes:
         - ./spa:/usr/src/app
       depends_on:
@@ -16,7 +16,7 @@ services:
 
     mysql:
       image: mysql:5.7.22
-      container_name: db
+      container_name: spa_db
       restart: unless-stopped 
       environment:
         MYSQL_USER: root
@@ -30,7 +30,7 @@ services:
         - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
     
     nginx:
-      container_name: nginx
+      container_name: spa_nginx
       image: nginx:1.13
       restart: always
       ports:

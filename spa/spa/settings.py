@@ -81,7 +81,7 @@ DATABASES = {
         'NAME':'spa_app',
         'USER': 'root',
         'PASSWORD': '111',
-        'HOST': 'db',
+        'HOST': 'spa_db',
         'PORT': '3306'
     }
 }
